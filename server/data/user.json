@@ -3,12 +3,14 @@
     "fullName": "Trial Premium 1",
     "email": "trial1@mail.com",
     "password": "1234",
-    "subscription": "Premium"
+    "subscription": "Premium",
+    "imageUrl": "https://i.pinimg.com/736x/28/7c/b5/287cb5bee3282583abe7836cc2f15465.jpg"
   },
   {
     "fullName": "Free User 1",
     "email": "user1@mail.com",
     "password": "1234",
-    "subscription": "Free"
+    "subscription": "Free",
+    "imageUrl": "https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg"
   }
 ]

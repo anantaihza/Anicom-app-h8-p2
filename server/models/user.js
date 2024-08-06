@@ -11,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsToMany(models.Anime, { through: models.Subscribe, as: "anime" });
+      User.belongsToMany(models.Anime, {
+        through: models.Subscribe,
+        as: 'anime',
+      });
       User.hasMany(models.Subscribe);
     }
   }
@@ -60,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       subscription: DataTypes.STRING,
+      imageUrl: DataTypes.TEXT,
     },
     {
       hooks: {

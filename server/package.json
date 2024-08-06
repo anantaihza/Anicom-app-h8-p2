@@ -6,7 +6,7 @@
     "dev": "npx nodemon server.js",
     "test": "jest --detectOpenHandles --forceExit",
     "resetDB": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all",
-    "createUser": "npx sequelize model:create --name User --attributes fullName:string,email:string,password:string,subscription:string",
+    "createUser": "npx sequelize model:create --name User --attributes fullName:string,email:string,password:string,subscription:string,imageUrl:text",
     "createAnime": "npx sequelize model:create --name Anime --attributes mal_id:integer,imageUrl:string,title:string,episodes:integer,status:string,score:float,studios:string,synopsis:text",
     "createSubscribe": "npx sequelize model:create --name Subscribe --attributes UserId:integer,AnimeId:integer,watched:boolean,voteType:integer",
     "seedUser": "npx sequelize seed:create --name seed-User"
