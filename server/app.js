@@ -10,6 +10,8 @@ const Controller = require('./controllers/controller');
 const JikanController = require('./controllers/jikanController');
 const errorHandler = require('./middlewares/errorHandler');
 const AuthController = require('./controllers/authController');
+const authentication = require('./middlewares/authentication');
+const VoteController = require('./controllers/voteController');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -25,6 +27,9 @@ app.get('/anime-list/:id/statistics', JikanController.getAnimeStatistics);
 
 app.post('/register', AuthController.register);
 app.post('/login', AuthController.login);
+
+app.use(authentication)
+app.get("/vote", VoteController.vote)
 
 app.use(errorHandler);
 

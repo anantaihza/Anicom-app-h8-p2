@@ -42,7 +42,7 @@ class AuthController {
         id: findUser.id,
       });
 
-      res.status(200).json({ access_token });
+      res.status(200).json({ name: findUser.fullName, access_token });
     } catch (error) {
       next(error);
     }
