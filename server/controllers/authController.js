@@ -1,6 +1,7 @@
 const { comparePassword } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt');
 const { User } = require('../models');
+const cloudinary = require('cloudinary').v2;
 
 class AuthController {
   static async register(req, res, next) {
@@ -42,7 +43,58 @@ class AuthController {
         id: findUser.id,
       });
 
-      res.status(200).json({ name: findUser.fullName, access_token });
+      res.status(200).json({
+        name: findUser.fullName,
+        imageUrl: findUser.imageUrl,
+        access_token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getUser(req, res, next) {
+    try {
+      res.status(200).json(req.user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async putUser(req, res, next) {
+    try {
+      const { id } = req.user;
+      const { fullName } = req.body;
+
+      cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+      });
+      const b64File = Buffer.from(req.file.buffer).toString('base64');
+
+      const dataURI = `data:${req.file.mimetype};base64,${b64File}`;
+
+      const uploadFile = await cloudinary.uploader.upload(dataURI, {
+        folder: 'Phase2-IndividualProject-img',
+        // public_id: req.file.originalname
+      });
+
+      await User.update(
+        {
+          fullName: fullName,
+          imageUrl: uploadFile.secure_url,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+
+      res.status(200).json({
+        message: 'Success to update Profile',
+      });
     } catch (error) {
       next(error);
     }

@@ -16,9 +16,10 @@ const authentication = async (req, res, next) => {
 
     req.user = {
       id: user.id,
-      // fullName: user.fullName,
-      // email: user.email,
-      // subscription: user.subscription
+      fullName: user.fullName,
+      email: user.email,
+      subscription: user.subscription,
+      imageUrl: user.imageUrl
     };
     next();
 

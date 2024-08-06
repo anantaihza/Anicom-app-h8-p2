@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const cors = require('cors');
+
 const Controller = require('./controllers/controller');
 const JikanController = require('./controllers/jikanController');
 const errorHandler = require('./middlewares/errorHandler');
@@ -13,6 +14,12 @@ const AuthController = require('./controllers/authController');
 const authentication = require('./middlewares/authentication');
 const SubscribeController = require('./controllers/subscribeController');
 const { authorizationSubscribe } = require('./middlewares/authorization');
+
+// Multer
+const multer = require('multer');
+const storage = multer.memoryStorage();
+// langkah pertama multer
+const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -33,8 +40,10 @@ app.get('/anime-list/:id', JikanController.getAnimeById);
 app.get('/anime-list/:id/character', JikanController.getAnimeCharacterById);
 app.get('/anime-list/:id/statistics', JikanController.getAnimeStatistics);
 
-
 app.use(authentication);
+
+app.get('/profile', AuthController.getUser);
+app.put('/profile', upload.single('imageUrl'), AuthController.putUser);
 
 app.get('/subscribe', SubscribeController.getSubscribe);
 app.post('/subscribe', SubscribeController.postSubscribe);
