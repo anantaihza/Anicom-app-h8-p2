@@ -6,7 +6,7 @@
     "dev": "npx nodemon server.js",
     "test": "jest --detectOpenHandles --forceExit",
     "createUser": "npx sequelize model:create --name User --attributes fullName:string,email:string,password:string,subscription:string",
-    "createAnime": "npx sequelize model:create --name Anime --attributes mal_id:integer(belom beres)",
+    "createAnime": "npx sequelize model:create --name Anime --attributes mal_id:integer,imageUrl:string,title:string,episodes:integer,status:string,score:float,studios:string,synopsis:string",
     "createVote": "npx sequelize model:create --name Vote --attributes UserId:integer,AnimeId:integer,voteType:integer"
   },
   "keywords": [],
