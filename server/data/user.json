@@ -1,0 +1,14 @@
+[
+  {
+    "fullName": "Trial Premium 1",
+    "email": "trial1@mail.com",
+    "password": "1234",
+    "subscription": "Premium"
+  },
+  {
+    "fullName": "Free User 1",
+    "email": "user1@mail.com",
+    "password": "1234",
+    "subscription": "Free"
+  }
+]
