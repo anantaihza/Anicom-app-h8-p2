@@ -11,7 +11,7 @@ const JikanController = require('./controllers/jikanController');
 const errorHandler = require('./middlewares/errorHandler');
 const AuthController = require('./controllers/authController');
 const authentication = require('./middlewares/authentication');
-const VoteController = require('./controllers/voteController');
+const SubscribeController = require('./controllers/subscribeController');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -29,7 +29,11 @@ app.post('/register', AuthController.register);
 app.post('/login', AuthController.login);
 
 app.use(authentication)
-app.get("/vote", VoteController.vote)
+app.get("/subscribe", SubscribeController.getSubscribe)
+app.post("/subscribe", SubscribeController.postSubscribe)
+app.put("/subscribe/:AnimeId", SubscribeController.updateSubscribe)
+app.put("/subscribe/:AnimeId/vote", SubscribeController.updateSubscribeVote)
+app.delete("/subscribe/:AnimeId", SubscribeController.deleteSubscribe)
 
 app.use(errorHandler);
 

@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsToMany(models.Anime, { through: models.Vote });
-      User.hasMany(models.Vote);
+      User.belongsToMany(models.Anime, { through: models.Subscribe });
+      User.hasMany(models.Subscribe);
     }
   }
   User.init(

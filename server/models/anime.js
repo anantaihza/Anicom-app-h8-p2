@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Anime.belongsToMany(models.User, { through: models.Vote });
-      Anime.hasMany(models.Vote);
+      Anime.belongsToMany(models.User, { through: models.Subscribe });
+      Anime.hasMany(models.Subscribe);
     }
   }
   Anime.init(
@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       synopsis: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notNull: {

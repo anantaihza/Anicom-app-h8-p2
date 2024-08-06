@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Votes', {
+    await queryInterface.createTable('Subscribes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,6 +27,9 @@ module.exports = {
         onUpdate: 'cascade',
         onDelete: 'cascade'
       },
+      watched: {
+        type: Sequelize.BOOLEAN
+      },
       voteType: {
         type: Sequelize.INTEGER
       },
@@ -41,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Votes');
+    await queryInterface.dropTable('Subscribes');
   }
 };
