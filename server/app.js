@@ -12,6 +12,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const AuthController = require('./controllers/authController');
 const authentication = require('./middlewares/authentication');
 const SubscribeController = require('./controllers/subscribeController');
+const { authorizationSubscribe } = require('./middlewares/authorization');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -31,9 +32,9 @@ app.post('/login', AuthController.login);
 app.use(authentication)
 app.get("/subscribe", SubscribeController.getSubscribe)
 app.post("/subscribe", SubscribeController.postSubscribe)
-app.put("/subscribe/:AnimeId", SubscribeController.updateSubscribe)
-app.put("/subscribe/:AnimeId/vote", SubscribeController.updateSubscribeVote)
-app.delete("/subscribe/:AnimeId", SubscribeController.deleteSubscribe)
+app.patch("/subscribe/:SubscribeId", authorizationSubscribe, SubscribeController.updateSubscribe)
+app.patch("/subscribe/:SubscribeId/vote", authorizationSubscribe, SubscribeController.updateSubscribeVote)
+app.delete("/subscribe/:SubscribeId", authorizationSubscribe, SubscribeController.deleteSubscribe)
 
 app.use(errorHandler);
 

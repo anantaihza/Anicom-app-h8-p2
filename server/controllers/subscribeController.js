@@ -9,11 +9,11 @@ class SubscribeController {
         attributes: [],
         include: {
           model: Anime,
-          as: "anime"
-        }
+          as: 'anime',
+        },
       });
 
-      res.status(200).json(subscribes.anime)
+      res.status(200).json(subscribes.anime);
     } catch (error) {
       next(error);
     }
@@ -74,6 +74,23 @@ class SubscribeController {
 
   static async updateSubscribe(req, res, next) {
     try {
+      const { SubscribeId } = req.params;
+      const { watched } = req.subscribe;
+
+      await Subscribe.update(
+        {
+          watched: !watched,
+        },
+        {
+          where: {
+            id: SubscribeId,
+          },
+        }
+      );
+
+      res.status(200).json({
+        message: 'Success to update status',
+      });
     } catch (error) {
       next(error);
     }
