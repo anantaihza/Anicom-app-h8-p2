@@ -100,6 +100,16 @@ class SubscribeController {
 
   static async deleteSubscribe(req, res, next) {
     try {
+      const { SubscribeId } = req.params;
+      await Subscribe.destroy({
+        where: {
+          id: SubscribeId
+        }
+      })
+
+      res.status(200).json({
+        message: "Success to delete anime subscribe"
+      })
     } catch (error) {
       next(error);
     }
