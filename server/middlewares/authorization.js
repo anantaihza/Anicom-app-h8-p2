@@ -3,7 +3,7 @@ const { Subscribe } = require('../models');
 const authorizationSubscribe = async (req, res, next) => {
   try {
     const { SubscribeId } = req.params;
-    
+
     const subscribe = await Subscribe.findByPk(SubscribeId);
     // console.log(subscribe)
     if (!subscribe) throw { name: 'NotFound' };
@@ -12,7 +12,6 @@ const authorizationSubscribe = async (req, res, next) => {
 
     req.subscribe = {
       watched: subscribe.watched,
-      voteType: subscribe.voteType,
     };
 
     next();

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { Anime, Subscribe, User, sequelize } = require('../models');
+const { Op, where } = require('sequelize');
 
 class SubscribeController {
   static async getSubscribe(req, res, next) {
@@ -10,6 +11,7 @@ class SubscribeController {
         include: {
           model: Anime,
           as: 'anime',
+          order: [['id', 'ASC']],
         },
       });
 
@@ -96,15 +98,74 @@ class SubscribeController {
     }
   }
 
-  static async updateSubscribeVote(req, res, next) {
+  static async deleteSubscribe(req, res, next) {
     try {
     } catch (error) {
       next(error);
     }
   }
 
-  static async deleteSubscribe(req, res, next) {
+  static async updateSubscribeUpVote(req, res, next) {
     try {
+      const { SubscribeId } = req.params;
+      await Subscribe.update(
+        {
+          voteType: 1,
+        },
+        {
+          where: {
+            id: SubscribeId,
+          },
+        }
+      );
+
+      res.status(200).json({
+        message: 'Success to up vote',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateSubscribeNeutralVote(req, res, next) {
+    try {
+      const { SubscribeId } = req.params;
+      await Subscribe.update(
+        {
+          voteType: 0,
+        },
+        {
+          where: {
+            id: SubscribeId,
+          },
+        }
+      );
+
+      res.status(200).json({
+        message: 'Success to neutral vote',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateSubscribeDownVote(req, res, next) {
+    try {
+      const { SubscribeId } = req.params;
+      await Subscribe.update(
+        {
+          voteType: -1,
+        },
+        {
+          where: {
+            id: SubscribeId,
+          },
+        }
+      );
+
+      res.status(200).json({
+        message: 'Success to down vote',
+      });
     } catch (error) {
       next(error);
     }

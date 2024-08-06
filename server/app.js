@@ -33,8 +33,10 @@ app.use(authentication)
 app.get("/subscribe", SubscribeController.getSubscribe)
 app.post("/subscribe", SubscribeController.postSubscribe)
 app.patch("/subscribe/:SubscribeId", authorizationSubscribe, SubscribeController.updateSubscribe)
-app.patch("/subscribe/:SubscribeId/vote", authorizationSubscribe, SubscribeController.updateSubscribeVote)
 app.delete("/subscribe/:SubscribeId", authorizationSubscribe, SubscribeController.deleteSubscribe)
+app.patch("/subscribe/:SubscribeId/up-vote", authorizationSubscribe, SubscribeController.updateSubscribeUpVote)
+app.patch("/subscribe/:SubscribeId/neutral-vote", authorizationSubscribe, SubscribeController.updateSubscribeNeutralVote)
+app.patch("/subscribe/:SubscribeId/down-vote", authorizationSubscribe, SubscribeController.updateSubscribeDownVote)
 
 app.use(errorHandler);
 
