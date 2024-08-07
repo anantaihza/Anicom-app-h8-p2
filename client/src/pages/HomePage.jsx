@@ -3,7 +3,7 @@ import Card from '../components/Card';
 
 export default function HomePage() {
   return (
-    <div className="py-32 container mx-auto px-32">
+    <div className="py-32 container mx-auto px-10 lg:px-32">
       <h1 className="font-black text-4xl">Explore</h1>
       <p className="font-bold text-gray-400">What are you gonna see today? </p>
 
