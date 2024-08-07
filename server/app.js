@@ -30,17 +30,20 @@ app.get('/', Controller.home);
 // ! Login via google
 // ! Open AI
 // ! Midtrans
+// ! Dokumentasi API
+// ! Testing
 
 app.post('/register', AuthController.register);
 app.post('/login', AuthController.login);
+
+
+app.use(authentication);
 
 app.get('/anime-list', JikanController.getAnime);
 app.get('/anime-list/characters', JikanController.getAnimeCharacters);
 app.get('/anime-list/:id', JikanController.getAnimeById);
 app.get('/anime-list/:id/character', JikanController.getAnimeCharacterById);
 app.get('/anime-list/:id/statistics', JikanController.getAnimeStatistics);
-
-app.use(authentication);
 
 app.get('/profile', AuthController.getUser);
 app.put('/profile', upload.single('imageUrl'), AuthController.putUser);

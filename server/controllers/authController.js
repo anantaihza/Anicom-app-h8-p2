@@ -44,8 +44,6 @@ class AuthController {
       });
 
       res.status(200).json({
-        name: findUser.fullName,
-        imageUrl: findUser.imageUrl,
         access_token,
       });
     } catch (error) {

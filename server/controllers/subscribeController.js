@@ -108,7 +108,7 @@ class SubscribeController {
       })
 
       res.status(200).json({
-        message: "Success to delete anime subscribe"
+        message: "Success to delete Subscribe"
       })
     } catch (error) {
       next(error);
