@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
-    <div className="navbar bg-transparent container mx-auto px-32 fixed top-0 inset-x z-50">
+    <div className="navbar bg-white container mx-auto px-32 py-2 fixed top-0 inset-x-0 z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -26,51 +27,47 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a>Item 1</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
+              <Link to="/my-subscribes">My Subscribes</Link>
             </li>
           </ul>
         </div>
-        <a href='#' className="font-bold text-xl">daisyUI</a>
+        <Link to="/" className="font-bold text-xl">
+          Ani<span className="text-[#E2A171]">Com</span>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Item 1</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <a>Item 3</a>
+            <Link to="/my-subscribes">My Subscribes</Link>
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
+      <div className="navbar-end gap-5">
+        <h2 className="font-bold hidden lg:block">Ananta ihza Ramadhan</h2>
+        <div className="dropdown dropdown-end">
+          <div tabIndex={0} role="button" className="avatar">
+            <div className="ring-[#E2A171] ring-offset-base-100 w-9 rounded-full ring ring-offset-2">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            </div>
+          </div>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+          >
+            <li>
+              <Link to="/">Profile</Link>
+            </li>
+            <li>
+              <Link to="/">Logout</Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

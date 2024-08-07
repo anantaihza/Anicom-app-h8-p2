@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .bg-auth {
-  /* background-image: url("https://i.pinimg.com/736x/8e/d6/af/8ed6afdb3e2cc51f340e89482e4c47fe.jpg"); */
   background-image: url("https://i.pinimg.com/736x/b2/e3/78/b2e3786ee2fdb8d0e18b2c34cf2b4e73.jpg");
 }

@@ -3,6 +3,7 @@ import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
 import MainLayout from '../pages/MainLayout';
 import HomePage from '../pages/HomePage';
+import SubscribesPage from '../pages/SubscribesPage';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <HomePage />,
+      },
+      {
+        path: '/my-subscribes',
+        element: <SubscribesPage/>,
       },
     ],
   },
