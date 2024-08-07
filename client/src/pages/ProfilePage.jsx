@@ -8,7 +8,7 @@ export default function ProfilePage() {
         Do you want to change your profile?
       </p>
 
-      <div className="flex justify-center mt-20">
+      <div className="flex justify-center mt-10">
         <div className="card bg-gradient-to-r from-[#E2A171] to-[#E49255] w-full md:w-[80%] lg:w-[60%] xl:w-[40%] shadow-xl">
           <div className="card-body text-white">
             <h2 className="font-bold text-3xl text-center">Your Profile Form</h2>

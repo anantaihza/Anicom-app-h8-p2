@@ -6,6 +6,7 @@ import HomePage from '../pages/HomePage';
 import SubscribesPage from '../pages/SubscribesPage';
 import ProfilePage from '../pages/ProfilePage';
 import RecommendationPage from '../pages/RecommendationPage';
+import DetailPage from '../pages/DetailPage';
 
 const router = createBrowserRouter([
   {
@@ -21,10 +22,6 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: '',
-        element: <HomePage />,
-      },
-      {
         path: '/my-subscribes',
         element: <SubscribesPage />,
       },
@@ -35,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: '/recommendation',
         element: <RecommendationPage />,
+      },
+      {
+        path: '',
+        element: <HomePage />,
+      },
+      {
+        path: '/:id',
+        element: <DetailPage />,
       },
     ],
   },
