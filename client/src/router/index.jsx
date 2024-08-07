@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
 import MainLayout from '../pages/MainLayout';
@@ -12,10 +12,22 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />,
+    loader: () => {
+      if (localStorage.access_token) {
+        return redirect('/');
+      }
+      return null;
+    },
   },
   {
     path: '/login',
     element: <LoginPage />,
+    loader: () => {
+      if (localStorage.access_token) {
+        return redirect('/');
+      }
+      return null;
+    },
   },
   {
     path: '/',
@@ -24,22 +36,52 @@ const router = createBrowserRouter([
       {
         path: '/my-subscribes',
         element: <SubscribesPage />,
+        loader: () => {
+          if (!localStorage.access_token) {
+            return redirect('/login');
+          }
+          return null;
+        },
       },
       {
         path: '/profile',
         element: <ProfilePage />,
+        loader: () => {
+          if (!localStorage.access_token) {
+            return redirect('/login');
+          }
+          return null;
+        },
       },
       {
         path: '/recommendation',
         element: <RecommendationPage />,
+        loader: () => {
+          if (!localStorage.access_token) {
+            return redirect('/login');
+          }
+          return null;
+        },
       },
       {
         path: '',
         element: <HomePage />,
+        loader: () => {
+          if (!localStorage.access_token) {
+            return redirect('/login');
+          }
+          return null;
+        },
       },
       {
         path: '/:id',
         element: <DetailPage />,
+        loader: () => {
+          if (!localStorage.access_token) {
+            return redirect('/login');
+          }
+          return null;
+        },
       },
     ],
   },

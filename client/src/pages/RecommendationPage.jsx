@@ -39,6 +39,7 @@ export default function RecommendationPage() {
           </p>
 
           <div className="list-card mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
+            {/* <Card />
             <Card />
             <Card />
             <Card />
@@ -47,8 +48,7 @@ export default function RecommendationPage() {
             <Card />
             <Card />
             <Card />
-            <Card />
-            <Card />
+            <Card /> */}
           </div>
         </div>
       </div>

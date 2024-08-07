@@ -1,9 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from '../config/axiosInstance';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handlerLogin = async (e) => {
+    try {
+      e.preventDefault()
+      const {data} = await axios({
+        method: "POST",
+        url: "/login",
+        data: {
+          email,
+          password
+        }
+      })
+
+      // console.log(data)
+      localStorage.setItem("access_token", data.access_token)
+      navigate("/")
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+  };
 
   return (
     <div className="w-screen h-screen flex">
@@ -21,7 +44,7 @@ export default function LoginPage() {
             </Link>
           </p>
 
-          <form className="mt-10">
+          <form className="mt-10" onSubmit={handlerLogin}>
             <label className="input input-bordered flex items-center gap-2 rounded-full p-7 mb-5">
               <span className="font-medium text-[#2D2D2D]">Email: </span>
               <input

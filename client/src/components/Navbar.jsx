@@ -1,7 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfile } from '../redux/features/profileSlice';
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state) => state.profile);
+
+  const handlerLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
   return (
     <div className="navbar bg-white container mx-auto  px-10 lg:px-32 py-2 fixed top-0 inset-x-0 z-50">
       <div className="navbar-start">
@@ -53,7 +68,7 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
-        <Link to="/" className="font-bold text-xl">
+        <Link to="/" className="font-black text-xl">
           Ani<span className="text-[#E2A171]">Com</span>
         </Link>
       </div>
@@ -87,11 +102,17 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end gap-5">
-        <h2 className="font-bold hidden lg:block">Ananta ihza Ramadhan</h2>
+        <h2 className="font-medium hidden lg:block">{profile.fullName}</h2>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="avatar">
             <div className="ring-[#E2A171] ring-offset-base-100 w-9 rounded-full ring ring-offset-2">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              <img
+                src={
+                  profile.imageUrl !== 'null'
+                    ? profile.imageUrl
+                    : 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'
+                }
+              />
             </div>
           </div>
           <ul
@@ -102,7 +123,7 @@ export default function Navbar() {
               <Link to="/profile">Profile</Link>
             </li>
             <li>
-              <Link to="/">Logout</Link>
+              <button onClick={handlerLogout}>Logout</button>
             </li>
           </ul>
         </div>

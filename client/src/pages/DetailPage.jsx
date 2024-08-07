@@ -1,20 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDetailAnime } from '../redux/features/detailAnimeSlice';
+
+import axios from "../config/axiosInstance.js"
 
 export default function DetailPage() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const anime = useSelector((state) => state.detailAnime.data);
+
+  useEffect(() => {
+    dispatch(getDetailAnime(id));
+  }, [dispatch, id]);
+  // const [anime, setAnime] = useState({})
+
+  // const fetchDetail = async () => {
+  //   try {
+  //     const {data} = await axios({
+  //       method: "GET",
+  //       url: `/anime-list/${id}`
+  //     })
+
+  //     setAnime(data.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  
+  // useEffect(() => {
+  //   fetchDetail()
+  // }, [])
+  
+
   return (
     <div className="pt-32 pb-20 container mx-auto px-10 lg:px-32">
       <h1 className="font-black text-4xl">Detail Anime</h1>
       <p className="font-bold text-gray-400">
-        Detail information about anime dfdffds
+        Detail information about anime "{anime.title}"
       </p>
 
       <div className="card bg-base-100 w-full shadow-xl mt-10 px-5 py-16">
         <div className="px-12 flex gap-10">
           <div className="w-[20%]">
             <img
-              src="https://cdn.myanimelist.net/images/anime/1015/138006.jpg"
+              src={anime.images.jpg.image_url}
               className="rounded-2xl"
-              alt=""
+              alt={anime.title}
             />
           </div>
           <div className="w-[80%] my-auto">
@@ -31,58 +63,60 @@ export default function DetailPage() {
                   clipRule="evenodd"
                 />
               </svg>
-              <span className="my-auto">4.9</span>
+              <span className="my-auto">{anime.score}</span>
             </p>
             <div className="">
-              <p className="font-bold text-xl text-gray-400">28 Episodes</p>
-              <h1 className="font-bold text-5xl text-[#E2A171]">Sousou no Frieren</h1>
+              <p className="font-bold text-xl text-gray-400">
+                {anime.episodes} Episodes
+              </p>
+              <h1 className="font-bold text-5xl text-[#E2A171]">
+                {anime.title}
+              </h1>
               <p className="font-bold text-lg text-gray-700">
-                Frieren: Beyond Journey's End
+                {anime.title_english}
               </p>
 
               <div className="flex gap-2 mt-5">
                 <p className="font-medium ">Genres:</p>
-                <div className="badge badge-outline text-[#E2A171] my-auto">
-                  Comedy
-                </div>
-                <div className="badge badge-outline text-[#E2A171] my-auto">
-                  Drama
-                </div>
+                {anime.genres.map((genre) => {
+                  return (
+                    <div className="badge badge-outline text-[#E2A171] my-auto">
+                      {genre.name}
+                    </div>
+                  );
+                })}
               </div>
 
-              <div className="stats stats-vertical lg:stats-horizontal shadow mt-5">
-                <div className="stat">
-                  <div className="stat-title">Type</div>
-                  <div className="stat-value text-xl">TV</div>
-                  {/* <div className="stat-desc">Anime</div> */}
-                </div>
+              <div className="flex gap-5 mt-5">
+                <div className="stats stats-vertical lg:stats-horizontal shadow">
+                  <div className="stat">
+                    <div className="stat-title">Type</div>
+                    <div className="stat-value text-xl">{anime.type}</div>
+                  </div>
 
-                <div className="stat">
-                  <div className="stat-title">Studios</div>
-                  <div className="stat-value text-xl">Toei Animation</div>
-                  {/* <div className="stat-desc"></div> */}
-                </div>
+                  <div className="stat">
+                    <div className="stat-title">Studios</div>
+                    <div className="stat-value text-xl">
+                      {anime.studios[0].name}
+                    </div>
+                  </div>
 
-                <div className="stat">
-                  <div className="stat-title">Status</div>
-                  <div className="stat-value text-xl">Finished Airing</div>
-                  {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+                  <div className="stat">
+                    <div className="stat-title">Status</div>
+                    <div className="stat-value text-xl">{anime.status}</div>
+                  </div>
                 </div>
+                <button className="my-auto btn btn-lg bg-[#2D2D2D] text-white hover:text-[#2D2D2D] border-none rounded-full">
+                  Subscribe
+                </button>
               </div>
             </div>
           </div>
         </div>
         <div className="px-12 mt-10">
-          <p className="font-bold text-xl">
-            Rating: PG-13 - Teens 13 or older
-          </p>
-          <p className="font-bold mt-10">Description:</p>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia
-            possimus voluptatem, maxime est dolores odio nesciunt sapiente
-            accusamus voluptas corrupti neque consequatur facere, voluptatibus
-            dicta quibusdam aliquam dolorum ea voluptatum!
-          </p>
+          <p className="font-bold text-xl">Rating: {anime.rating}</p>
+          <p className="font-bold mt-10">Synopsis:</p>
+          <p>{anime.synopsis}</p>
         </div>
       </div>
     </div>
