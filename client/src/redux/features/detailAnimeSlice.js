@@ -41,6 +41,7 @@ export const getDetailAnime = (id) => {
     } catch (error) {
       console.log(error, '<--')
       toast.error(error.response.data.message);
+      dispatch(setIsLoading(false))
     }
   };
 };
@@ -65,6 +66,7 @@ export const subscribeDetailAnime = (id) => {
     } catch (error) {
       console.log(error, '<--')
       toast.error(error.response.data.message);
+      dispatch(setIsLoading(false))
     }
   };
 };

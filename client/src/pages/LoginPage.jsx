@@ -32,7 +32,7 @@ export default function LoginPage() {
   useEffect(() => {
     async function handleCredentialResponse(response) {
       try {
-        console.log(response.credential)
+        // console.log(response.credential)
         const { data } = await axios({
           method: 'POST',
           url: '/google-login',
