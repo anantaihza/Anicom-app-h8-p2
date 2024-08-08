@@ -6,6 +6,14 @@ function errorHandler(err, req, res, next) {
       status = 404;
       message = 'Data not found';
       break;
+    case 'IsPremium':
+      status = 400;
+      message = 'You already premium';
+      break;
+    case 'AlreadyPaid':
+      status = 400;
+      message = 'Order already paid';
+      break;
     case 'Forbidden':
       status = 403;
       message = 'You are not authorized';

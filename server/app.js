@@ -15,6 +15,7 @@ const AuthController = require('./controllers/authController');
 const authentication = require('./middlewares/authentication');
 const SubscribeController = require('./controllers/subscribeController');
 const { authorizationSubscribe } = require('./middlewares/authorization');
+const PaymentController = require('./controllers/paymentController');
 
 // Multer
 const multer = require('multer');
@@ -37,12 +38,14 @@ app.get('/', Controller.home);
 
 app.post('/register', AuthController.register);
 app.post('/login', AuthController.login);
-app.post("/google-login", AuthController.loginGoogle)
-
+app.post('/google-login', AuthController.loginGoogle);
 
 app.use(authentication);
-app.post("/open-ai", OpenaiController.postEmotion)
+app.patch("/user/me/upgrade", AuthController.upgradeAccount)
+app.get("/payment/midtrans", PaymentController.initiateMidtrans)
 
+
+app.post('/open-ai', OpenaiController.postEmotion);
 
 app.get('/anime-list', JikanController.getAnime);
 app.get('/anime-list/characters', JikanController.getAnimeCharacters);

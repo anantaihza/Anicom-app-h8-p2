@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'anime',
       });
       User.hasMany(models.Subscribe);
+      User.hasMany(models.Order)
     }
   }
   User.init(

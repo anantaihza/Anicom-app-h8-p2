@@ -1,8 +1,9 @@
 const { comparePassword } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt');
-const { User } = require('../models');
+const { User, Order } = require('../models');
 const cloudinary = require('cloudinary').v2;
 const { OAuth2Client } = require('google-auth-library');
+const axios = require('axios');
 
 class AuthController {
   static async register(req, res, next) {
@@ -144,6 +145,64 @@ class AuthController {
       res.status(200).json({
         message: 'Success to update Profile',
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async upgradeAccount(req, res, next) {
+    try {
+      const { orderId } = req.body;
+      const order = await Order.findOne({
+        where: {
+          orderId,
+        },
+      });
+      if (!order) throw { name: 'NotFound' };
+
+      if (req.user.subscription === 'Premium') throw { name: 'IsPremium' };
+
+      if (order.status === 'paid') throw { name: 'AlreadyPaid' };
+
+      const serverKey = process.env.MIDTRANS_SERVER_KEY;
+      const base64ServerKey = Buffer.from(serverKey + ':').toString('base64');
+      const { data } = await axios({
+        method: 'GET',
+        url: `https://api.sandbox.midtrans.com/v2/${orderId}/status`,
+        headers: {
+          Authorization: `Basic ${base64ServerKey}`,
+        },
+      });
+
+      console.log(data, "<data")
+
+      if (data.transaction_status === 'capture' && data.status_code === '200') {
+        await User.update(
+          {
+            subscription: 'Premium',
+          },
+          {
+            where: {
+              id: req.user.id,
+            },
+          }
+        );
+
+        await Order.update(
+          {
+            status: 'paid',
+          },
+          {
+            where: {
+              orderId,
+            },
+          }
+        );
+        
+        res.status(200).json({ message: 'Upgrade Success' });
+      } else {
+        res.status(400).json({ message: 'Upgrade Failed' });
+      }
     } catch (error) {
       next(error);
     }
