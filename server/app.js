@@ -28,10 +28,10 @@ app.use(express.json());
 
 app.get('/', Controller.home);
 
-// ! Open AI
 // ! Midtrans
 // ! Testing
 // ! Hosting
+// !// Open AI
 // !// Dokumentasi API
 // !// Login via google
 

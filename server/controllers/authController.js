@@ -79,6 +79,7 @@ class AuthController {
           email,
           password: 'GoogleLogin',
           imageUrl,
+          subscription: 'Free',
         },
         hooks: false,
       });
@@ -110,9 +111,11 @@ class AuthController {
       const { id } = req.user;
       const { fullName } = req.body;
 
-      let option = {
-        fullName: fullName,
-      };
+      let option = {};
+
+      if (fullName) {
+        option = { ...option, fullName: fullName };
+      }
 
       if (req.file) {
         cloudinary.config({
@@ -128,7 +131,7 @@ class AuthController {
           folder: 'Phase2-IndividualProject-img',
           // public_id: req.file.originalname
         });
-        
+
         option = { ...option, imageUrl: uploadFile.secure_url };
       }
 
