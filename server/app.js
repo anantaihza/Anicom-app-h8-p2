@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const Controller = require('./controllers/controller');
 const JikanController = require('./controllers/jikanController');
+const OpenaiController = require('./controllers/openaiController');
 const errorHandler = require('./middlewares/errorHandler');
 const AuthController = require('./controllers/authController');
 const authentication = require('./middlewares/authentication');
@@ -27,11 +28,12 @@ app.use(express.json());
 
 app.get('/', Controller.home);
 
-// !// Login via google
 // ! Open AI
 // ! Midtrans
-// ! Dokumentasi API
 // ! Testing
+// ! Hosting
+// !// Dokumentasi API
+// !// Login via google
 
 app.post('/register', AuthController.register);
 app.post('/login', AuthController.login);
@@ -39,6 +41,8 @@ app.post("/google-login", AuthController.loginGoogle)
 
 
 app.use(authentication);
+app.post("/open-ai", OpenaiController.postEmotion)
+
 
 app.get('/anime-list', JikanController.getAnime);
 app.get('/anime-list/characters', JikanController.getAnimeCharacters);
