@@ -2,6 +2,7 @@ const { comparePassword } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt');
 const { User } = require('../models');
 const cloudinary = require('cloudinary').v2;
+const { OAuth2Client } = require('google-auth-library');
 
 class AuthController {
   static async register(req, res, next) {
@@ -46,6 +47,52 @@ class AuthController {
       res.status(200).json({
         access_token,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async loginGoogle(req, res, next) {
+    const token = req.headers.google_token;
+    try {
+      const client = new OAuth2Client();
+
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience:
+          '1089656286519-qoanr3dtsbo186lc053agt49c83cvret.apps.googleusercontent.com', // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+      });
+      const payload = ticket.getPayload();
+      // console.log(payload);
+      // res.json(payload)
+
+      const fullName = payload.name
+      const email = payload.email;
+      const imageUrl = payload.picture;
+
+
+      const [user, created] = await User.findOrCreate({
+        where: { email },
+        defaults: {
+          fullName,
+          email,
+          password: 'GoogleLogin',
+          imageUrl
+        },
+        hooks: false,
+      });
+
+      if (!created) {
+        if (user.password !== 'GoogleLogin') {
+          throw { name: 'AlreadyRegisteredNonGoogle' };
+        }
+      }
+
+      const access_token = signToken({ id: user.id });
+
+      res.status(200).json({ access_token });
     } catch (error) {
       next(error);
     }

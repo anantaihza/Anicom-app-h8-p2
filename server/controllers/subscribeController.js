@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { Anime, Subscribe, User, sequelize } = require('../models');
-const { Op, where } = require('sequelize');
+const { Op } = require('sequelize');
 
 class SubscribeController {
   static async getSubscribe(req, res, next) {

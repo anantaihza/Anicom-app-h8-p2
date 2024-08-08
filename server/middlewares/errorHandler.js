@@ -18,6 +18,10 @@ function errorHandler(err, req, res, next) {
     case 'BadRequest':
       status = 400;
       break;
+    case 'AlreadyRegisteredNonGoogle':
+      status = 400;
+      message = "Your email is already registered in the system, please login via non-Google"
+      break;
     case 'Unauthenticated':
     case 'JsonWebTokenError':
       status = 401;

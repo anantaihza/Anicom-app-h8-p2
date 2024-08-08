@@ -35,6 +35,7 @@ app.get('/', Controller.home);
 
 app.post('/register', AuthController.register);
 app.post('/login', AuthController.login);
+app.post("/google-login", AuthController.loginGoogle)
 
 
 app.use(authentication);
