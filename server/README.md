@@ -8,11 +8,24 @@ List of Endpoints:
 
 #### User
 
-| Method | Endpoint      | Documentation         |
-| ------ | ------------- | --------------------- |
-| Post   | /login        | [Here](#login)        |
-| Post   | /google-login | [Here](#google-login) |
-| Post   | /register     | [Here](#register)     |
+| Method | Endpoint         | Documentation         |
+| ------ | ---------------- | --------------------- |
+| Post   | /login           | [Here](#login)        |
+| Post   | /google-login    | [Here](#google-login) |
+| Post   | /register        | [Here](#register)     |
+| Patch  | /user/me/upgrade | [Here](#user-upgrade) |
+
+#### Open AI
+
+| Method | Endpoint | Documentation    |
+| ------ | -------- | ---------------- |
+| Post   | /open-ai | [Here](#open-ai) |
+
+#### Payment
+
+| Method | Endpoint          | Documentation             |
+| ------ | ----------------- | ------------------------- |
+| Get    | /payment/midtrans | [Here](#payment-midtrans) |
 
 #### Anime List
 
@@ -158,6 +171,121 @@ List of Endpoints:
     "Email is required",
     "Password is required"
   ]
+```
+
+---
+
+## User Upgrade
+
+```http
+  PATCH /user/me/upgrade
+```
+
+#### Body:
+
+| Key       | Type      |          |
+| :-------- | :-------- | :------- |
+| `orderId` | `Integer` | Required |
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{ "message": "Upgrade Success" }
+```
+
+#### Response (404 - Not Found):
+
+```json
+{
+  "message": "Data not found"
+}
+```
+#### Response (400 - Bad Request):
+
+```json
+{
+  "message": "You already premium"
+}
+OR
+{
+  "message": "Order already paid"
+}
+OR
+{
+  "message": "Upgrade Failed"
+}
+```
+
+---
+
+## Open AI
+
+```http
+  POST /open-ai
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Body:
+
+| Key       | Type     |          |
+| :-------- | :------- | :------- |
+| `emotion` | `string` | Required |
+
+#### Response (200 - OK):
+
+```json
+[
+    {
+        "mal_id": Integer,
+        "score": Float,
+        "status": String,
+        "title": String,
+        "episodes": Integer,
+        "synopsis": String
+    },
+    ...
+]
+```
+
+---
+
+## Payment Midtrans
+
+```http
+  GET /payment/midtrans
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{
+    "message": String,
+    "transactionToken": String,
+    "orderId": Integer
+}
 ```
 
 ---

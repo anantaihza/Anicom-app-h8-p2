@@ -174,7 +174,7 @@ class AuthController {
         },
       });
 
-      console.log(data, "<data")
+      // console.log(data, "<data")
 
       if (data.transaction_status === 'capture' && data.status_code === '200') {
         await User.update(

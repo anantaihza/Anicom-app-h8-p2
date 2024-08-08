@@ -31,7 +31,7 @@ class PaymentController {
 
       const transaction = await snap.createTransaction(parameter);
       let transactionToken = transaction.token;
-      console.log('transactionToken:', transactionToken);
+      // console.log('transactionToken:', transactionToken);
 
       await Order.create({
         orderId,
