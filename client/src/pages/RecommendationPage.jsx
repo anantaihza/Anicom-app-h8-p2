@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Option from '../components/recommendation/Option';
-import Card from '../components/Card';
+import { postOpenAi } from '../redux/features/recommendationSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import CardRecommendation from '../components/CardRecommendation';
 
 export default function RecommendationPage() {
+  const dispatch = useDispatch();
+  const { values, isLoading } = useSelector((state) => state.recommendations);
+  const [emotion, setEmotion] = useState('');
+
+  const handlerGenerate = () => {
+    dispatch(postOpenAi(emotion));
+  };
+
+  // useEffect(() => {
+  //   console.log(emotion)
+  // }, [emotion])
+
   return (
     <div className="py-32 container mx-auto px-10 lg:px-32">
       <h1 className="font-black text-4xl">Magic Recommendation</h1>
@@ -17,18 +31,30 @@ export default function RecommendationPage() {
             What are you feeling right now?
           </p>
 
-          <form className="mt-5">
+          <div className="mt-5">
             <ul className="grid w-full gap-6 md:grid-cols-5">
-              {/* state nya di komponen ini */}
-              <Option emotion="Bahagia" />
-              <Option emotion="Sedih" />
-              <Option emotion="Marah" />
+              <Option emotion="Happy" setEmotion={setEmotion} />
+              <Option emotion="Sad" setEmotion={setEmotion} />
+              <Option emotion="Angry" setEmotion={setEmotion} />
             </ul>
 
-            <button className="mt-10 btn bg-[#2D2D2D] text-white hover:text-[#2D2D2D] border-none rounded-full px-20">
-              Generate
-            </button>
-          </form>
+            {isLoading ? (
+              <button
+                onClick={handlerGenerate}
+                className="mt-10 btn bg-[#2D2D2D] text-white hover:text-[#2D2D2D] border-none rounded-full px-20"
+                disabled
+              >
+                <span className="loading loading-ring loading-lg"></span>
+              </button>
+            ) : (
+              <button
+                onClick={handlerGenerate}
+                className="mt-10 btn bg-[#2D2D2D] text-white hover:text-[#2D2D2D] border-none rounded-full px-20"
+              >
+                Generate
+              </button>
+            )}
+          </div>
         </div>
       </div>
       <div className="card bg-gradient-to-r from-[#E2A171] to-[#E49255] w-full shadow-xl mt-10">
@@ -38,17 +64,10 @@ export default function RecommendationPage() {
             Anime based on your emotional
           </p>
 
-          <div className="list-card mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
-            {/* <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card /> */}
+          <div className="list-card mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+            {values.map((anime) => {
+              return <CardRecommendation key={anime.mal_id} anime={anime} />;
+            })}
           </div>
         </div>
       </div>

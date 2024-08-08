@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailAnime, subscribeDetailAnime } from '../redux/features/detailAnimeSlice';
 
-import axios from '../config/axiosInstance.js';
 
 export default function DetailPage() {
   const navigate = useNavigate()
@@ -34,8 +33,8 @@ export default function DetailPage() {
       </p>
 
       <div className="card bg-base-100 w-full shadow-xl mt-10 px-5 py-16">
-        <div className="px-12 flex gap-10">
-          <div className="w-[20%]">
+        <div className="px-12 flex gap-10 flex-col lg:flex-row">
+          <div className="w-full lg:w-[20%]">
             <img
               src={anime.images?.jpg.image_url}
               className="rounded-2xl"
@@ -73,14 +72,14 @@ export default function DetailPage() {
                 <p className="font-medium ">Genres:</p>
                 {anime.genres?.map((genre) => {
                   return (
-                    <div className="badge badge-outline text-[#E2A171] my-auto">
+                    <div key={genre.name} className="badge badge-outline text-[#E2A171] my-auto">
                       {genre.name}
                     </div>
                   );
                 })}
               </div>
 
-              <div className="flex gap-5 mt-5">
+              <div className="flex flex-col lg:flex-row gap-5 mt-5">
                 <div className="stats stats-vertical lg:stats-horizontal shadow">
                   <div className="stat">
                     <div className="stat-title">Type</div>

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import axios from '../../config/axiosInstance';
+import { getSubscribe } from './subscribeListSlice';
 
 const detailAnimeSlice = createSlice({
   name: 'detailAnime',
@@ -60,6 +61,7 @@ export const subscribeDetailAnime = (id) => {
       });
       
       dispatch(setIsLoading(false))
+      dispatch(getSubscribe())
     } catch (error) {
       console.log(error, '<--')
       toast.error(error.response.data.message);

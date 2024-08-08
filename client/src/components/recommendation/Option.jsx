@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Option({ emotion }) {
+export default function Option({ emotion, setEmotion }) {
   return (
     <li>
       <input
@@ -9,8 +9,8 @@ export default function Option({ emotion }) {
         name="hosting"
         defaultValue={emotion}
         className="hidden peer"
-        required=""
-        value={emotion}
+        // value={emotion}
+        onClick={() => setEmotion(emotion)}
       />
       <label
         htmlFor={emotion}
