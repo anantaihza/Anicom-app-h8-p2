@@ -27,7 +27,7 @@ app.use(express.json());
 
 app.get('/', Controller.home);
 
-// ! Login via google
+// !// Login via google
 // ! Open AI
 // ! Midtrans
 // ! Dokumentasi API

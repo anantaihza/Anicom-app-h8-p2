@@ -8,58 +8,44 @@ List of Endpoints:
 
 #### User
 
-| Method | Endpoint  | Documentation     |
-| ------ | --------- | ----------------- |
-| Post   | /login    | [Here](#login)    |
-| Post   | /register | [Here](#register) |
+| Method | Endpoint      | Documentation         |
+| ------ | ------------- | --------------------- |
+| Post   | /login        | [Here](#login)        |
+| Post   | /google-login | [Here](#google-login) |
+| Post   | /register     | [Here](#register)     |
 
 #### Anime List
 
-| Method | Endpoint                                        | Documentation                     |
-| ------ | ----------------------------------------------- | --------------------------------- |
-| Get    | /anime-list `Authentication`                      | [Here](#anime-list)            |
-| Get    | /anime-list/:id `Authentication`                      | [Here](#anime-list-detail)            |
-| Get    | /anime-list/characters `Authentication`                      | [Here](#anime-list-character)            |
+| Method | Endpoint                                    | Documentation                        |
+| ------ | ------------------------------------------- | ------------------------------------ |
+| Get    | /anime-list `Authentication`                | [Here](#anime-list)                  |
+| Get    | /anime-list/:id `Authentication`            | [Here](#anime-list-detail)           |
+| Get    | /anime-list/characters `Authentication`     | [Here](#anime-list-character)        |
+| Get    | /anime-list/:id/characters `Authentication` | [Here](#anime-list-character-detail) |
+| Get    | /anime-list/:id/statistics `Authentication` | [Here](#anime-list-statistics)       |
 
+#### Subscribe
 
+| Method | Endpoint                                     | Documentation                   |
+| ------ | -------------------------------------------- | ------------------------------- |
+| Get    | /subscribe `Authentication`                  | [Here](#get-subscribe)          |
+| Post   | /subscribe `Authentication`                  | [Here](#post-subscribe)         |
+| Delete | /subscribe/:id `Authentication`              | [Here](#delete-subscribe)       |
+| Patch  | /subscribe/:id `Authentication`              | [Here](#watched-subscribe)      |
+| Patch  | /subscribe/:id/up-vote `Authentication`      | [Here](#up-vote-subscribe)      |
+| Patch  | /subscribe/:id/neutral-vote `Authentication` | [Here](#neutral-vote-subscribe) |
+| Patch  | /subscribe/:id/down-vote `Authentication`    | [Here](#down-vote-subscribe)    |
 
+#### Profile
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### Products
-
-| Method | Endpoint                                        | Documentation                     |
-| ------ | ----------------------------------------------- | --------------------------------- |
-| Get    | /Products `Authentication`                      | [Here](#data-products)            |
-| Post   | /Products `Authentication`                      | [Here](#add-data-products)        |
-| Get    | /Products/:id `Authentication`                  | [Here](#detail-data-products)     |
-| Put    | /Products/:id `Authentication`, `Authorization` | [Here](#edit-data-products)       |
-| Patch  | /Products/:id `Authentication`, `Authorization` | [Here](#edit-photo-data-products) |
-| Delete | /Products/:id `Authentication`, `Authorization` | [Here](#delete-data-products)     |
-
-#### Categories
-
-| Method | Endpoint                        | Documentation              |
-| ------ | ------------------------------- | -------------------------- |
-| Get    | /categories `Authentication`    | [Here](#data-categories)   |
-| Post   | /categories `Authentication`    | [Here](#add-categories)    |
-| Put    | /categories:id `Authentication` | [Here](#update-categories) |
-| Delete | /categories:id `Authentication` | [Here](#delete-categories) |
-
-
+| Method | Endpoint                  | Documentation        |
+| ------ | ------------------------- | -------------------- |
+| Get    | /profile `Authentication` | [Here](#get-profile) |
+| Put    | /profile `Authentication` | [Here](#put-profile) |
 
 ## API Reference
+
+---
 
 ## Login
 
@@ -93,6 +79,36 @@ List of Endpoints:
 ```json
 {
   "message": "Invalid Email / Password"
+}
+```
+
+---
+
+## Google Login
+
+```http
+  POST /google-login
+```
+
+#### Header:
+
+```json
+{
+  "google_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{ "access_token": "string" }
+```
+
+#### Response (400 - Bad Request):
+
+```json
+{
+  "message": "Your email is already registered in the system, please login via non-Google"
 }
 ```
 
@@ -144,145 +160,12 @@ List of Endpoints:
   ]
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ---
 
-## Public Products
+## Anime List
 
 ```http
-  GET /pub/products
-```
-
-#### Response (200 - OK):
-
-```json
-  {
-    "page": 1,
-    "data": [
-      {
-        "id": "integer",
-        "name": "string",
-        "description": "string",
-        "price": "integet",
-        "stock": "integer",
-        "imgUrl": "string",
-        "categoryId": "integer",
-        "authorId": "integer",
-        "createdAt": "date",
-        "updatedAt": "date"
-      },
-      ...
-    ],
-    "totalData": "integer",
-    "totalPage": "integer",
-    "dataPerPage": "integer"
-  }
-```
-
----
-
-## Public Detail Product
-
-```http
-  GET /pub/products/:id
-```
-
-#### Params:
-
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-#### Response (200 - Ok):
-
-```json
-{
-  "product": {
-    "id": "integer",
-    "name": "string",
-    "description": "string",
-    "price": "integer",
-    "stock": "integer",
-    "imgUrl": "string",
-    "categoryId": "integer",
-    "authorId": "integer",
-    "createdAt": "date",
-    "updatedAt": "date"
-  }
-}
-```
-
-#### Response (404 - NotFound):
-
-```json
-{
-  "message": "Data Not Found"
-}
-```
-
----
-
-## Public Categories
-
-```http
-  GET /pub/categories
-```
-
-#### Response (200 - Ok):
-
-```json
-  {
-    "categories": [
-      {
-        "id": 1,
-        "name": "Bedroom",
-        "createdAt": "2024-07-22T14:11:25.391Z",
-        "updatedAt": "2024-07-22T14:11:25.391Z"
-      },
-  }
-```
-
----
-
-## Data Products
-
-```http
-  GET /products
+  GET /anime-list
 ```
 
 #### Header:
@@ -296,40 +179,502 @@ List of Endpoints:
 #### Response (200 - OK):
 
 ```json
-  {
-    "products": [
-        {
-            "id": "integer",
-            "name": "string",
-            "description": "string",
-            "price": "integer",
-            "stock": "integer",
-            "imgUrl": "string",
-            "categoryId": "integer",
-            "authorId": "integer",
-            "createdAt": "date",
-            "updatedAt": "date",
-            "User": {
-                "id": "integer",
-                "username": "string",
-                "email": "string",
-                "role": "string",
-                "phoneNumber": "string",
-                "address": "string"
-            }
+{
+  "data": [
+    {
+      "mal_id": 0,
+      "url": "string",
+      "images": {
+        "jpg": {
+          "image_url": "string",
+          "small_image_url": "string",
+          "large_image_url": "string"
         },
-
-        ...
-    ]
+        "webp": {
+          "image_url": "string",
+          "small_image_url": "string",
+          "large_image_url": "string"
+        }
+      },
+      "trailer": {
+        "youtube_id": "string",
+        "url": "string",
+        "embed_url": "string"
+      },
+      "approved": true,
+      "titles": [
+        {
+          "type": "string",
+          "title": "string"
+        }
+      ],
+      "title": "string",
+      "title_english": "string",
+      "title_japanese": "string",
+      "title_synonyms": ["string"],
+      "type": "TV",
+      "source": "string",
+      "episodes": 0,
+      "status": "Finished Airing",
+      "airing": true,
+      "aired": {
+        "from": "string",
+        "to": "string",
+        "prop": {
+          "from": {
+            "day": 0,
+            "month": 0,
+            "year": 0
+          },
+          "to": {
+            "day": 0,
+            "month": 0,
+            "year": 0
+          },
+          "string": "string"
+        }
+      },
+      "duration": "string",
+      "rating": "G - All Ages",
+      "score": 0,
+      "scored_by": 0,
+      "rank": 0,
+      "popularity": 0,
+      "members": 0,
+      "favorites": 0,
+      "synopsis": "string",
+      "background": "string",
+      "season": "summer",
+      "year": 0,
+      "broadcast": {
+        "day": "string",
+        "time": "string",
+        "timezone": "string",
+        "string": "string"
+      },
+      "producers": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ],
+      "licensors": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ],
+      "studios": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ],
+      "genres": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ],
+      "explicit_genres": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ],
+      "themes": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ],
+      "demographics": [
+        {
+          "mal_id": 0,
+          "type": "string",
+          "name": "string",
+          "url": "string"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "last_visible_page": 0,
+    "has_next_page": true,
+    "items": {
+      "count": 0,
+      "total": 0,
+      "per_page": 0
+    }
   }
+}
 ```
 
 ---
 
-## Add Data Products
+## Anime List Detail
 
 ```http
-  POST /products
+  GET /anime-list/:id
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{
+  "data": {
+    "mal_id": 0,
+    "url": "string",
+    "images": {
+      "jpg": {
+        "image_url": "string",
+        "small_image_url": "string",
+        "large_image_url": "string"
+      },
+      "webp": {
+        "image_url": "string",
+        "small_image_url": "string",
+        "large_image_url": "string"
+      }
+    },
+    "trailer": {
+      "youtube_id": "string",
+      "url": "string",
+      "embed_url": "string"
+    },
+    "approved": true,
+    "titles": [
+      {
+        "type": "string",
+        "title": "string"
+      }
+    ],
+    "title": "string",
+    "title_english": "string",
+    "title_japanese": "string",
+    "title_synonyms": ["string"],
+    "type": "TV",
+    "source": "string",
+    "episodes": 0,
+    "status": "Finished Airing",
+    "airing": true,
+    "aired": {
+      "from": "string",
+      "to": "string",
+      "prop": {
+        "from": {
+          "day": 0,
+          "month": 0,
+          "year": 0
+        },
+        "to": {
+          "day": 0,
+          "month": 0,
+          "year": 0
+        },
+        "string": "string"
+      }
+    },
+    "duration": "string",
+    "rating": "G - All Ages",
+    "score": 0,
+    "scored_by": 0,
+    "rank": 0,
+    "popularity": 0,
+    "members": 0,
+    "favorites": 0,
+    "synopsis": "string",
+    "background": "string",
+    "season": "summer",
+    "year": 0,
+    "broadcast": {
+      "day": "string",
+      "time": "string",
+      "timezone": "string",
+      "string": "string"
+    },
+    "producers": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ],
+    "licensors": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ],
+    "studios": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ],
+    "genres": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ],
+    "explicit_genres": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ],
+    "themes": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ],
+    "demographics": [
+      {
+        "mal_id": 0,
+        "type": "string",
+        "name": "string",
+        "url": "string"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Anime List Character
+
+```http
+  GET /anime-list/characters
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{
+  "data": [
+    {
+      "mal_id": 0,
+      "url": "string",
+      "images": {
+        "jpg": {
+          "image_url": "string",
+          "small_image_url": "string"
+        },
+        "webp": {
+          "image_url": "string",
+          "small_image_url": "string"
+        }
+      },
+      "name": "string",
+      "name_kanji": "string",
+      "nicknames": ["string"],
+      "favorites": 0,
+      "about": "string"
+    }
+  ],
+  "pagination": {
+    "last_visible_page": 0,
+    "has_next_page": true,
+    "items": {
+      "count": 0,
+      "total": 0,
+      "per_page": 0
+    }
+  }
+}
+```
+
+---
+
+## Anime List Character Detail
+
+```http
+  GET /anime-list/:id/characters
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{
+  "data": [
+    {
+      "character": {
+        "mal_id": 0,
+        "url": "string",
+        "images": {
+          "jpg": {
+            "image_url": "string",
+            "small_image_url": "string"
+          },
+          "webp": {
+            "image_url": "string",
+            "small_image_url": "string"
+          }
+        },
+        "name": "string"
+      },
+      "role": "string",
+      "voice_actors": [
+        {
+          "person": {
+            "mal_id": 0,
+            "url": "string",
+            "images": {
+              "jpg": {
+                "image_url": "string"
+              }
+            },
+            "name": "string"
+          },
+          "language": "string"
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## Anime List Statistic
+
+```http
+  GET /anime-list/:id/statistics
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+{
+  "data": {
+    "watching": 0,
+    "completed": 0,
+    "on_hold": 0,
+    "dropped": 0,
+    "plan_to_watch": 0,
+    "total": 0,
+    "scores": [
+      {
+        "score": 0,
+        "votes": 0,
+        "percentage": 0
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Get Subscribe
+
+```http
+  GET /subscribe
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+#### Response (200 - OK):
+
+```json
+[
+    {
+        "id": Integer,
+        "mal_id": Integer,
+        "imageUrl": String,
+        "title": String,
+        "episodes": Integer,
+        "status": String,
+        "score": Float,
+        "studios": String,
+        "synopsis": String,
+        "createdAt": Date,
+        "updatedAt": Date,
+        "Subscribe": {
+            "id": Integer,
+            "UserId": Integer,
+            "AnimeId": Integer,
+            "watched": Boolean,
+            "voteType": Integer,
+            "createdAt": Date,
+            "updatedAt": Date
+        }
+    },
+    ...
+]
+
+```
+
+---
+
+## Post Subscribe
+
+```http
+  POST /subscribe
 ```
 
 #### Header:
@@ -342,46 +687,42 @@ List of Endpoints:
 
 #### Body:
 
-| Key           | Type      | Type     |
-| :------------ | :-------- | :------- |
-| `name`        | `string`  | Required |
-| `description` | `string`  | Required |
-| `price`       | `integer` | Required |
-| `stock`       | `integer` | Required |
-| `imgUrl`      | `string`  | Required |
-| `categoryId`  | `integer` | Required |
+| Key      | Type      | Type     |
+| :------- | :-------- | :------- |
+| `mal_id` | `Integer` | Required |
 
 #### Response (201 - Created):
 
 ```json
 {
-  "name": "string",
-  "description": "string",
-  "price": "integer",
-  "stock": "integer",
-  "imgUrl": "string",
-  "categoryId": "integer",
-  "authorId": "integer"
+    "message": String,
+    "result": {
+        "id": Integer,
+        "UserId": Integer,
+        "AnimeId": Integer,
+        "updatedAt": Date,
+        "createdAt": Date,
+        "watched": Boolean,
+        "voteType": Integer
+    }
 }
+
 ```
 
-#### Response (400 - Bad Request):
+#### Response (500 - Internal Server Error):
 
 ```json
-  "message": [
-    "Name is required",
-    "Description is required",
-    "Price is required",
-    "CategoryId is required"
-  ]
+{
+  "message": "Request failed with status code 404"
+}
 ```
 
 ---
 
-## Detail Data Products
+## Delete Subscribe
 
 ```http
-  GET /products/:id
+  DELETE /subscribe
 ```
 
 #### Header:
@@ -394,45 +735,32 @@ List of Endpoints:
 
 #### Params:
 
-```json
-{
-  "id": "integer (required)"
-}
-```
+| Key  | Type      | Type     |
+| :--- | :-------- | :------- |
+| `id` | `Integer` | Required |
 
 #### Response (200 - OK):
 
 ```json
 {
-  "product": {
-    "id": "integer",
-    "name": "string",
-    "description": "string",
-    "price": "integer",
-    "stock": "integer",
-    "imgUrl": "string",
-    "categoryId": "integer",
-    "authorId": "integer",
-    "createdAt": "date",
-    "updatedAt": "date"
-  }
+  "message": "Success to delete Subscribe"
 }
 ```
 
-#### Response (404 - NotFound):
+#### Response (404 - Not Found):
 
 ```json
 {
-  "message": "Data Not Found"
+  "message": "Data not found"
 }
 ```
 
 ---
 
-## Edit Data Products
+## Watched Subscribe
 
 ```http
-  PUT /products/:id
+  PATCH /subscribe/:id
 ```
 
 #### Header:
@@ -445,75 +773,32 @@ List of Endpoints:
 
 #### Params:
 
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-#### Body:
-
-| Key           | Type      | Type     |
-| :------------ | :-------- | :------- |
-| `name`        | `string`  | Required |
-| `description` | `string`  | Required |
-| `price`       | `integer` | Required |
-| `stock`       | `integer` | Required |
-| `imgUrl`      | `string`  | Required |
-| `categoryId`  | `integer` | Required |
+| Key  | Type      | Type     |
+| :--- | :-------- | :------- |
+| `id` | `Integer` | Required |
 
 #### Response (200 - OK):
 
 ```json
 {
-  "product": {
-    "id": "integer",
-    "name": "string",
-    "description": "string",
-    "price": "integer",
-    "stock": "integer",
-    "imgUrl": "string",
-    "categoryId": "integer",
-    "authorId": "integer",
-    "createdAt": "date",
-    "updatedAt": "date"
-  }
+  "message": "Success to update status"
 }
 ```
 
-#### Response (400 - Bad Request):
-
-```json
-  "message": [
-    "Name is required",
-    "Description is required",
-    "Price is required",
-    "CategoryId is required"
-  ]
-```
-
-#### Response (404 - NotFound):
+#### Response (404 - Not Found):
 
 ```json
 {
-  "message": "Data Not Found"
-}
-```
-
-#### Response (403 - Forbidden):
-
-```json
-{
-  "message": "Forbidden"
+  "message": "Data not found"
 }
 ```
 
 ---
 
-## Edit Photo Data Products
+## Up Vote Subscribe
 
 ```http
-  PATCH /products/:id
+  PATCH /subscribe/:id/up-vote
 ```
 
 #### Header:
@@ -526,40 +811,32 @@ List of Endpoints:
 
 #### Params:
 
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-#### Body:
-
-| Key      | Type   |
-| :------- | :----- |
-| `imgUrl` | `file` |
+| Key  | Type      | Type     |
+| :--- | :-------- | :------- |
+| `id` | `Integer` | Required |
 
 #### Response (200 - OK):
 
 ```json
 {
-  "message": "Image Product success to update"
+  "message": "Success to up vote"
 }
 ```
 
-#### Response (403 - Forbidden):
+#### Response (404 - Not Found):
 
 ```json
 {
-  "message": "Forbidden"
+  "message": "Data not found"
 }
 ```
 
 ---
 
-## Delete Data Products
+## Neutral Vote Subscribe
 
 ```http
-  DELETE /products/:id
+  PATCH /subscribe/:id/neutral-vote
 ```
 
 #### Header:
@@ -572,118 +849,32 @@ List of Endpoints:
 
 #### Params:
 
-```json
-{
-  "id": "integer (required)"
-}
-```
+| Key  | Type      | Type     |
+| :--- | :-------- | :------- |
+| `id` | `Integer` | Required |
 
 #### Response (200 - OK):
 
 ```json
 {
-  "message": "Selimut tetangga success to delete"
+  "message": "Success to neutral vote"
 }
 ```
 
-#### Response (404 - NotFound):
+#### Response (404 - Not Found):
 
 ```json
 {
-  "message": "Data Not Found"
-}
-```
-
-#### Response (403 - Forbidden):
-
-```json
-{
-  "message": "Forbidden"
+  "message": "Data not found"
 }
 ```
 
 ---
 
-## Data Categories
+## Down Vote Subscribe
 
 ```http
-  GET /categories
-```
-
-#### Header:
-
-```json
-{
-  "access_token": "string"
-}
-```
-
-#### Response (200 - OK):
-
-```json
-  {
-    "categories": [
-      {
-          "id": "integer",
-          "name": "string",
-          "createdAt": "date",
-          "updatedAt": "date"
-      },
-      {
-          "id": "integer",
-          "name": "string",
-          "createdAt": "date",
-          "updatedAt": "date"
-      },
-      ...
-    ]
-  }
-```
-
----
-
-## Add Categories
-
-```http
-  POST /categories
-```
-
-#### Header:
-
-```json
-{
-  "access_token": "string"
-}
-```
-
-#### Body:
-
-| Key    | Type     |          |
-| :----- | :------- | :------- |
-| `name` | `string` | Required |
-
-#### Response (201 - Created):
-
-```json
-{
-  "category": "string"
-}
-```
-
-#### Response (400 - Bad Request):
-
-```json
-  "message": [
-    "Name is required"
-  ]
-```
-
----
-
-## Update Categories
-
-```http
-  PUT /categories/:id
+  PATCH /subscribe/:id/down-vote
 ```
 
 #### Header:
@@ -696,53 +887,32 @@ List of Endpoints:
 
 #### Params:
 
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-#### Body:
-
-| Key    | Type     |          |
-| :----- | :------- | :------- |
-| `name` | `string` | Required |
+| Key  | Type      | Type     |
+| :--- | :-------- | :------- |
+| `id` | `Integer` | Required |
 
 #### Response (200 - OK):
 
 ```json
 {
-  "category": {
-    "id": 3,
-    "name": "string",
-    "createdAt": "date",
-    "updatedAt": "date"
-  }
+  "message": "Success to down vote"
 }
 ```
 
-#### Response (404 - NotFound):
+#### Response (404 - Not Found):
 
 ```json
 {
-  "message": "Data Not Found"
+  "message": "Data not found"
 }
-```
-
-#### Response (400 - Bad Request):
-
-```json
-  "message": [
-    "Name is required"
-  ]
 ```
 
 ---
 
-## Delete Categories
+## Get Profile
 
 ```http
-  DELETE /categories/:id
+  GET /profile
 ```
 
 #### Header:
@@ -753,27 +923,47 @@ List of Endpoints:
 }
 ```
 
-#### Params:
+#### Response (200 - OK):
 
 ```json
 {
-  "id": "integer (required)"
+    "id": Integer,
+    "fullName": String,
+    "email": String,
+    "subscription": String,
+    "imageUrl": String
+}
+
+```
+
+---
+
+## Put Profile
+
+```http
+  Put /profile
+```
+
+#### Header:
+
+```json
+{
+  "access_token": "string"
 }
 ```
+
+#### Body (Form Data):
+
+| Key        | Type     |
+| :--------- | :------- |
+| `fullName` | `string` |
+| `imageUrl` | `File`   |
 
 #### Response (200 - OK):
 
 ```json
 {
-  "message": "Living Room success to delete"
-}
-```
-
-#### Response (404 - NotFound):
-
-```json
-{
-  "message": "Data Not Found"
+  "message": "Success to update Profile"
 }
 ```
 
@@ -785,7 +975,7 @@ List of Endpoints:
 
 ```json
 {
-  "message": "Unauthorized"
+  "message": "Invalid Token"
 }
 ```
 

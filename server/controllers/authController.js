@@ -68,10 +68,9 @@ class AuthController {
       // console.log(payload);
       // res.json(payload)
 
-      const fullName = payload.name
+      const fullName = payload.name;
       const email = payload.email;
       const imageUrl = payload.picture;
-
 
       const [user, created] = await User.findOrCreate({
         where: { email },
@@ -79,7 +78,7 @@ class AuthController {
           fullName,
           email,
           password: 'GoogleLogin',
-          imageUrl
+          imageUrl,
         },
         hooks: false,
       });
@@ -111,31 +110,33 @@ class AuthController {
       const { id } = req.user;
       const { fullName } = req.body;
 
-      cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET,
-      });
-      const b64File = Buffer.from(req.file.buffer).toString('base64');
+      let option = {
+        fullName: fullName,
+      };
 
-      const dataURI = `data:${req.file.mimetype};base64,${b64File}`;
+      if (req.file) {
+        cloudinary.config({
+          cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+          api_key: process.env.CLOUDINARY_API_KEY,
+          api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
+        const b64File = Buffer.from(req.file.buffer).toString('base64');
 
-      const uploadFile = await cloudinary.uploader.upload(dataURI, {
-        folder: 'Phase2-IndividualProject-img',
-        // public_id: req.file.originalname
-      });
+        const dataURI = `data:${req.file.mimetype};base64,${b64File}`;
 
-      await User.update(
-        {
-          fullName: fullName,
-          imageUrl: uploadFile.secure_url,
+        const uploadFile = await cloudinary.uploader.upload(dataURI, {
+          folder: 'Phase2-IndividualProject-img',
+          // public_id: req.file.originalname
+        });
+        
+        option = { ...option, imageUrl: uploadFile.secure_url };
+      }
+
+      await User.update(option, {
+        where: {
+          id,
         },
-        {
-          where: {
-            id,
-          },
-        }
-      );
+      });
 
       res.status(200).json({
         message: 'Success to update Profile',
