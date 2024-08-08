@@ -20,9 +20,9 @@ export default function DetailPage() {
     navigate("/my-subscribes")
   }
 
-  if (isLoading) {
-    return <h1 className="mt-96">Loading</h1>;
-  }
+  // if (isLoading) {
+  //   return <h1 className="mt-96">Loading</h1>;
+  // }
 
   return (
     // <h1 className='mt-96'>{anime.title}</h1>
