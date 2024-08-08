@@ -89,4 +89,37 @@ describe('Test 3rd Party API Jikan', () => {
       expect(response.body).toBeInstanceOf(Object);
       expect(response.body).toHaveProperty("message", expect.any(String))
   });
+
+  test('Should show anime list Character', async () => {
+    const response = await request(app)
+      .get('/anime-list/characters')
+      .set('Authorization', 'Bearer ' + token);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Object);
+    expect(response.body).toHaveProperty("pagination", expect.any(Object))
+    expect(response.body).toHaveProperty("data", expect.any(Array))
+    expect(response.body.data[0]).toHaveProperty("mal_id", expect.any(Number))
+  });
+
+  // test('Should show anime list Character by id', async () => {
+  //   const response = await request(app)
+  //     .get('/anime-list/52991/character')
+  //     .set('Authorization', 'Bearer ' + token);
+
+  //     console.log(response)
+  //   expect(response.status).toBe(200);
+  //   expect(response.body).toBeInstanceOf(Object);
+  //   expect(response.body).toHaveProperty("data", expect.any(Array))
+  // });
+
+  // test('Should show anime Statistics', async () => {
+  //   const response = await request(app)
+  //     .get('/anime-list/52991/statistics')
+  //     .set('Authorization', 'Bearer ' + token);
+
+  //   expect(response.status).toBe(200);
+  //   expect(response.body).toBeInstanceOf(Object);
+  //   expect(response.body).toHaveProperty("data", expect.any(Object))
+  // });
 });

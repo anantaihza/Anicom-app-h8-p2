@@ -153,9 +153,9 @@ List of Endpoints:
 
 ```json
 {
-  "id": "integer",
-  "username": "string",
-  "email": "string"
+  "id": 5,
+  "fullName": "user7",
+  "email": "user7@mail.com"
 }
 ```
 
@@ -208,6 +208,7 @@ List of Endpoints:
   "message": "Data not found"
 }
 ```
+
 #### Response (400 - Bad Request):
 
 ```json
