@@ -5,7 +5,7 @@ import {
   upVoteSubscribe,
   neutralVoteSubscribe,
   downVoteSubscribe,
-  deleteSubscribe
+  deleteSubscribe,
 } from '../redux/features/subscribeListSlice';
 
 export default function CardSubscribe({ anime }) {
@@ -30,8 +30,8 @@ export default function CardSubscribe({ anime }) {
   };
 
   const handlerDelete = (id) => {
-    dispatch(deleteSubscribe(id))
-  }
+    dispatch(deleteSubscribe(id));
+  };
 
   return (
     <div
@@ -52,8 +52,8 @@ export default function CardSubscribe({ anime }) {
             <button
               onClick={() =>
                 anime.Subscribe.voteType === 1
-                  ? handlerNeutralVote(anime.id)
-                  : handlerUpVote(anime.id)
+                  ? handlerNeutralVote(anime.Subscribe.id)
+                  : handlerUpVote(anime.Subscribe.id)
               }
             >
               {anime.Subscribe.voteType === 1 ? (
@@ -84,7 +84,13 @@ export default function CardSubscribe({ anime }) {
             </button>
 
             {/* dislike */}
-            <button onClick={() => anime.Subscribe.voteType === -1 ? handlerNeutralVote(anime.id) : handlerDownVote(anime.id)}>
+            <button
+              onClick={() =>
+                anime.Subscribe.voteType === -1
+                  ? handlerNeutralVote(anime.Subscribe.id)
+                  : handlerDownVote(anime.Subscribe.id)
+              }
+            >
               {anime.Subscribe.voteType === -1 ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +119,7 @@ export default function CardSubscribe({ anime }) {
             </button>
 
             {/* watched */}
-            <button onClick={() => handlerWatched(anime.id)}>
+            <button onClick={() => handlerWatched(anime.Subscribe.id)}>
               {anime.Subscribe.watched ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +152,7 @@ export default function CardSubscribe({ anime }) {
             </button>
 
             {/* delete */}
-            <button onClick={() => handlerDelete(anime.id)}>
+            <button onClick={() => handlerDelete(anime.Subscribe.id)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
