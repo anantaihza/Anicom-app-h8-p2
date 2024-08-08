@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../config/axiosInstance';
+import { toast } from 'react-toastify';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function RegisterPage() {
 
   const handlerRegister = async (e) => {
     try {
-      e.preventDefault()
+      e.preventDefault();
       const { data } = await axios({
         method: 'POST',
         url: '/register',
@@ -21,10 +22,14 @@ export default function RegisterPage() {
         },
       });
 
-      console.log(data)
+      // console.log(data);
+      toast.info('Success to Register');
       navigate('/login');
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      error.response.data.message.map((err) => {
+        return toast.error(err);
+      });
     }
   };
 

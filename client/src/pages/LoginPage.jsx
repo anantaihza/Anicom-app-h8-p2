@@ -1,32 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../config/axiosInstance';
 import { toast } from 'react-toastify';
 
 export default function LoginPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handlerLogin = async (e) => {
     try {
-      e.preventDefault()
-      const {data} = await axios({
-        method: "POST",
-        url: "/login",
+      e.preventDefault();
+      const { data } = await axios({
+        method: 'POST',
+        url: '/login',
         data: {
           email,
-          password
-        }
-      })
+          password,
+        },
+      });
 
       // console.log(data)
-      localStorage.setItem("access_token", data.access_token)
-      navigate("/")
+      localStorage.setItem('access_token', data.access_token);
+      toast.info('Success to login');
+      navigate('/');
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     }
   };
+
+  useEffect(() => {
+    async function handleCredentialResponse(response) {
+      try {
+        console.log(response.credential)
+        const { data } = await axios({
+          method: 'POST',
+          url: '/google-login',
+          headers: {
+            google_token: response.credential,
+          },
+        });
+        // console.log(data);
+        localStorage.setItem("access_token", data.access_token)
+        navigate("/")
+      } catch (error) {
+        console.log(error);
+        // toast.error(error);
+      }
+    }
+
+    google.accounts.id.initialize({
+      client_id: '1089656286519-qoanr3dtsbo186lc053agt49c83cvret.apps.googleusercontent.com',
+      callback: handleCredentialResponse,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('buttonGoogle'),
+      { theme: 'outline', size: 'large' } // customization attributes
+    );
+
+    google.accounts.id.prompt();
+  }, []);
 
   return (
     <div className="w-screen h-screen flex">
@@ -44,6 +78,7 @@ export default function LoginPage() {
             </Link>
           </p>
 
+          <div className='mt-10' id="buttonGoogle"></div>
           <form className="mt-10" onSubmit={handlerLogin}>
             <label className="input input-bordered flex items-center gap-2 rounded-full p-7 mb-5">
               <span className="font-medium text-[#2D2D2D]">Email: </span>
@@ -71,6 +106,7 @@ export default function LoginPage() {
               Login
             </button>
           </form>
+          
         </div>
       </div>
       <div className="hidden md:block md:w-[55%] bg-local bg-auth">

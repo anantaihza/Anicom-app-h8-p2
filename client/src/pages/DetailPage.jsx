@@ -1,39 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDetailAnime } from '../redux/features/detailAnimeSlice';
+import { getDetailAnime, subscribeDetailAnime } from '../redux/features/detailAnimeSlice';
 
-import axios from "../config/axiosInstance.js"
+import axios from '../config/axiosInstance.js';
 
 export default function DetailPage() {
+  const navigate = useNavigate()
   const { id } = useParams();
   const dispatch = useDispatch();
-  const anime = useSelector((state) => state.detailAnime.data);
+  const anime = useSelector((state) => state.detailAnime.anime);
+  const { isLoading } = useSelector((state) => state.detailAnime);
 
   useEffect(() => {
     dispatch(getDetailAnime(id));
   }, [dispatch, id]);
-  // const [anime, setAnime] = useState({})
 
-  // const fetchDetail = async () => {
-  //   try {
-  //     const {data} = await axios({
-  //       method: "GET",
-  //       url: `/anime-list/${id}`
-  //     })
+  const handlerSubscribe = (id) => {
+    dispatch(subscribeDetailAnime(id))
+    navigate("/my-subscribes")
+  }
 
-  //     setAnime(data.data)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  
-  // useEffect(() => {
-  //   fetchDetail()
-  // }, [])
-  
+  if (isLoading) {
+    return <h1 className="mt-96">Loading</h1>;
+  }
 
   return (
+    // <h1 className='mt-96'>{anime.title}</h1>
     <div className="pt-32 pb-20 container mx-auto px-10 lg:px-32">
       <h1 className="font-black text-4xl">Detail Anime</h1>
       <p className="font-bold text-gray-400">
@@ -44,7 +37,7 @@ export default function DetailPage() {
         <div className="px-12 flex gap-10">
           <div className="w-[20%]">
             <img
-              src={anime.images.jpg.image_url}
+              src={anime.images?.jpg.image_url}
               className="rounded-2xl"
               alt={anime.title}
             />
@@ -78,7 +71,7 @@ export default function DetailPage() {
 
               <div className="flex gap-2 mt-5">
                 <p className="font-medium ">Genres:</p>
-                {anime.genres.map((genre) => {
+                {anime.genres?.map((genre) => {
                   return (
                     <div className="badge badge-outline text-[#E2A171] my-auto">
                       {genre.name}
@@ -97,7 +90,7 @@ export default function DetailPage() {
                   <div className="stat">
                     <div className="stat-title">Studios</div>
                     <div className="stat-value text-xl">
-                      {anime.studios[0].name}
+                      {anime.studios && anime.studios[0].name}
                     </div>
                   </div>
 
@@ -106,7 +99,8 @@ export default function DetailPage() {
                     <div className="stat-value text-xl">{anime.status}</div>
                   </div>
                 </div>
-                <button className="my-auto btn btn-lg bg-[#2D2D2D] text-white hover:text-[#2D2D2D] border-none rounded-full">
+                {/* Subscribe */}
+                <button onClick={() => handlerSubscribe(anime.mal_id)} className="my-auto btn btn-lg bg-[#2D2D2D] text-white hover:text-[#2D2D2D] border-none rounded-full">
                   Subscribe
                 </button>
               </div>
