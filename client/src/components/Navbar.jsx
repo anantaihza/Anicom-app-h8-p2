@@ -200,9 +200,9 @@ export default function Navbar() {
             <div className="ring-[#E2A171] ring-offset-base-100 w-9 rounded-full ring ring-offset-2">
               <img
                 src={
-                  profile.imageUrl !== 'null'
+                  profile.imageUrl !== null
                     ? profile.imageUrl
-                    : 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'
+                    : 'https://static.vecteezy.com/system/resources/thumbnails/018/742/015/small_2x/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png'
                 }
               />
             </div>

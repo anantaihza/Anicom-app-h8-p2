@@ -24,10 +24,10 @@ export const getAnimeList = (page) => {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `/anime-list?page=${page}`,
-        headers: {
-          Authorization: `Bearer ${localStorage.access_token}`
-        }
+        url: `https://api.jikan.moe/v4/top/anime?page=${page}`,
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.access_token}`
+        // }
       });
 
       // console.log(data)
@@ -37,6 +37,25 @@ export const getAnimeList = (page) => {
     }
   };
 };
+
+// export const getAnimeList = (page) => {
+//   return async function(dispatch) {
+//     try {
+//       const { data } = await axios({
+//         method: 'GET',
+//         url: `/anime-list?page=${page}`,
+//         headers: {
+//           Authorization: `Bearer ${localStorage.access_token}`
+//         }
+//       });
+
+//       // console.log(data)
+//       dispatch(setAnimeList(data))
+//     } catch (error) {
+//       toast.error(error.response.data.message);
+//     }
+//   };
+// };
 
 export const { setAnimeList } = animeListSlice.actions;
 
